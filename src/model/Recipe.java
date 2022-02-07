@@ -3,10 +3,12 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import exception.NegativeNumberException;
+
 public class Recipe {
 	private List<Ingredient> ingredients;
 	
-	public Recipe(String n, double w) {
+	public Recipe() {
 		ingredients = new ArrayList<Ingredient>();
 	}
 	
@@ -21,7 +23,12 @@ public class Recipe {
 		}
 		
 		if(searched!=null) {
-			searched.addWeight(w);
+			try {
+				searched.addWeight(w);
+			} catch (NegativeNumberException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}else {
 			Ingredient newIngredient = new Ingredient(n, w);
 			ingredients.add(newIngredient);
@@ -30,5 +37,16 @@ public class Recipe {
 	
 	public List<Ingredient> getIngredients(){
 		return ingredients;
+	}
+	
+	public void removeIngredient(String n){
+		boolean again = true;
+		for(int i=0;i<ingredients.size() && again;i++) {
+			if(ingredients.get(i).getName().equals(n))
+			{
+				ingredients.remove(i);
+				again=false;
+			}
+		}
 	}
 }
